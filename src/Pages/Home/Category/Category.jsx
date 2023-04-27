@@ -9,7 +9,6 @@ const Category = () => {
     
     return (
         <div>
-            <h2>Dargon News Home</h2>
             {
                 categoryNews.map(news => <NewsCard
                 key={news._id}
