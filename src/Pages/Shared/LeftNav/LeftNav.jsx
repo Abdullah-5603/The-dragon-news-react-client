@@ -11,7 +11,6 @@ const LeftNav = () => {
         .catch(error => console.log(error.message))
     },[])
 
-    console.log(categories)
     return (
         <div className='mt-3'>
             <h4>All Category</h4>
