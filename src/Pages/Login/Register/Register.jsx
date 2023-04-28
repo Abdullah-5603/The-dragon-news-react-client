@@ -12,19 +12,21 @@ const Register = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [show, setShow] = useState(false)
+    const [accept, setAccept] = useState(false)
 
     const handleSubmit = event => {
         event.preventDefault();
         // console.log(event.target.email.value)
         const form = event.target;
         const name = form.name.value;
+        const photo = form.photo.value; 
         const email = form.email.value;
         const password = form.password.value;
         setError('')
         createUser(email, password)
             .then(result => {
-                const user = result.user;
-                setUser(user);
+                const createdUser = result.user;
+                setUser(createdUser);
                 setSuccess('Registered successfully')
                 setLoading(false)
             })
@@ -41,7 +43,10 @@ const Register = () => {
     const handleTogglePassword = () => {
         setShow(!show)
     }
-
+    const handleCheck = event =>{
+        const check = event.target.checked;
+        setAccept(check)
+    }
     return (
         <>
             <div className='my-3'>
@@ -58,7 +63,7 @@ const Register = () => {
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label className='fw-bold'>Photo url</Form.Label>
-                        <Form.Control name='photo_url' type='text' placeholder="Enter your photo url" />
+                        <Form.Control name='photo' type='text' placeholder="Enter your photo url" />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label className='fw-bold'>Email address</Form.Label>
@@ -79,9 +84,9 @@ const Register = () => {
                         </div>
                     </Form.Group>
                     <Form.Group className="my-3" controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="Accept Terms & Conditions" />
+                        <Form.Check onClick={handleCheck} type="checkbox" label={<>Accept <Link to='/terms'>Terms and Conditions</Link></>}/>
                     </Form.Group>
-                    <Button className='w-100 mb-2' variant="dark" type="submit">
+                    <Button disabled={!accept} className='w-100 mb-2' variant="dark" type="submit">
                         Register
                     </Button>
                     <Form.Group className='mb-2'>

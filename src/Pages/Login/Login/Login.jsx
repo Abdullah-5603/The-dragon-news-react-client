@@ -2,7 +2,7 @@ import React from 'react';
 import { useContext } from 'react';
 import { useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Providers/AuthProvider';
 import Loader from '../../Shared/Loader/Loader';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -12,6 +12,9 @@ const Login = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [show, setShow] = useState(false)
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/category/0'
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -22,9 +25,10 @@ const Login = () => {
         const password = form.password.value;
         signInUser(email, password)
             .then(result => {
-                const user = result.user;
+                const loggedUser = result.user;
                 setSuccess('Login Successfully')
                 setLoading(false)
+                navigate(from, {replace: true})
             })
             .catch(error => {
                 const errorMessage = error.message;
